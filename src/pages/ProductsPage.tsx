@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, Variants } from 'framer-motion';
 import { PRODUCTS } from '../data/products';
 import ProductCard from '../features/products/components/ProductCard';
 import Breadcrumbs from '../components/ui/Breadcrumbs';
@@ -65,6 +65,23 @@ const ProductsPage = () => {
       newParams.set('category', category);
     }
     setSearchParams(newParams);
+  };
+
+  // Configuración de animación para el cambio de vista (Stagger effect)
+  const containerVariants: Variants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.05
+      }
+    }
+  };
+
+  const itemVariants: Variants = {
+    hidden: { opacity: 0, y: 20, scale: 0.95 },
+    visible: { opacity: 1, y: 0, scale: 1, transition: { type: "spring", stiffness: 300, damping: 24 } },
+    exit: { opacity: 0, scale: 0.9, transition: { duration: 0.2 } }
   };
 
   return (
@@ -147,19 +164,15 @@ const ProductsPage = () => {
       {/* Grid de Productos */}
       {filteredProducts.length > 0 ? (
         <motion.div 
-          layout
+          key={viewMode}
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
           className={viewMode === 'grid' ? "grid grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-8 md:gap-x-8 md:gap-y-12" : "flex flex-col gap-6"}
         >
           <AnimatePresence mode='popLayout'>
             {filteredProducts.map((product) => (
-              <motion.div 
-                layout 
-                key={product.id} 
-                initial={{ opacity: 0, scale: 0.9 }} 
-                animate={{ opacity: 1, scale: 1 }} 
-                exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ duration: 0.3 }}
-              >
+              <motion.div layout key={product.id} variants={itemVariants} exit="exit">
                 <ProductCard product={product} variant={viewMode} />
               </motion.div>
             ))}
