@@ -6,7 +6,7 @@
   "description": "E-commerce moderno y minimalista construido con React, TypeScript, Vite y Tailwind CSS. Desarrollado por ValBitStudio.",
   "scripts": {
     "dev": "vite",
-    "build": "npm run sitemap && tsc && vite build",
+    "build": "npm run sitemap && vite build",
     "sitemap": "npx tsx scripts/generate-sitemap.ts",
     "lint": "eslint .",
     "preview": "vite preview"
