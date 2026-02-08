@@ -260,7 +260,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, variant = 'grid' }) 
         )}
 
         {isList && (
-        <div className="flex items-center mt-auto justify-between">
+        <div className="flex flex-col sm:flex-row sm:items-center mt-auto gap-4 justify-between">
           <div className="flex items-baseline gap-2">
             <p className={`font-medium text-2xl ${product.discount ? 'text-red-600' : 'text-gray-900'}`}>
               ${product.price.toFixed(2)}
@@ -272,10 +272,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, variant = 'grid' }) 
             )}
           </div>
 
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 w-full sm:w-auto">
             <button
               onClick={handleAddToCart}
-              className={`px-5 py-2 rounded-full text-sm font-medium transition-all flex items-center gap-2 ${
+              className={`flex-1 sm:flex-none justify-center px-5 py-2 rounded-full text-sm font-medium transition-all flex items-center gap-2 ${
                 isAdding 
                   ? 'bg-green-600 text-white' 
                   : isInCart
@@ -291,7 +291,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, variant = 'grid' }) 
                   <span>Añadido</span>
                 </>
               ) : (
-                <span>Añadir al carrito</span>
+                <span>Añadir a la bolsa</span>
               )}
             </button>
             
