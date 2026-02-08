@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useWishlistStore } from '../../../store/wishlistStore';
 import { useCartStore } from '../../../store/cartStore';
@@ -14,12 +15,30 @@ const WishlistSidebar = () => {
   
   const addItem = useCartStore((state) => state.addItem);
   const addToast = useToastStore((state) => state.addToast);
+  const navigate = useNavigate();
+
+  // Bloquear el scroll del body cuando el sidebar está abierto
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
 
   const handleAddToCart = (product: Product) => {
     // Añadir al carrito con la primera talla disponible por defecto
     const sizeToAdd = product.availableSizes && product.availableSizes.length > 0 ? product.availableSizes[0] : null;
     addItem(product, sizeToAdd);
     addToast(`${product.name} añadido al carrito`);
+  };
+
+  const handleExplore = () => {
+    toggleWishlistSidebar();
+    navigate('/products');
   };
 
   return (
@@ -60,7 +79,7 @@ const WishlistSidebar = () => {
                   title="Tu lista de deseos está vacía"
                   description="Guarda aquí tus favoritos para no perderlos de vista y comprarlos más tarde."
                   actionLabel="Explorar productos"
-                  onAction={toggleWishlistSidebar}
+                  onAction={handleExplore}
                   icon={
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1} stroke="currentColor" className="w-8 h-8">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
@@ -71,20 +90,24 @@ const WishlistSidebar = () => {
                 wishlist.map((item) => (
                   <div key={item.id} className="flex gap-4">
                     {/* Imagen */}
-                    {item.image ? (
-                      <img 
-                        src={item.image} 
-                        alt={item.name} 
-                        className="w-20 h-24 object-cover rounded-md flex-shrink-0 bg-gray-100" 
-                        loading="lazy"
-                      />
-                    ) : (
-                      <div className="w-20 h-24 bg-gray-100 rounded-md flex-shrink-0" />
-                    )}
+                    <Link to={`/product/${item.id}`} onClick={toggleWishlistSidebar} className="shrink-0">
+                      {item.image ? (
+                        <img 
+                          src={item.image} 
+                          alt={item.name} 
+                          className="w-20 h-24 object-cover rounded-md bg-gray-100" 
+                          loading="lazy"
+                        />
+                      ) : (
+                        <div className="w-20 h-24 bg-gray-100 rounded-md" />
+                      )}
+                    </Link>
                     
                     <div className="flex-1 flex flex-col">
                       <div className="flex justify-between items-start mb-1">
-                        <h3 className="font-medium text-sm">{item.name}</h3>
+                        <Link to={`/product/${item.id}`} onClick={toggleWishlistSidebar}>
+                          <h3 className="font-medium text-sm hover:underline">{item.name}</h3>
+                        </Link>
                         <p className="font-bold text-sm">${item.price.toFixed(2)}</p>
                       </div>
                       

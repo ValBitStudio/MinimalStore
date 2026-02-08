@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCartStore, selectTotalPrice } from '../../../store/cartStore';
@@ -20,9 +20,26 @@ const CartSidebar = () => {
 
   const navigate = useNavigate();
 
+  // Bloquear el scroll del body cuando el carrito está abierto
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
+
   const handleCheckout = () => {
     toggleCart(); // Cierra el carrito
     navigate('/checkout'); // Navega a la página de pago
+  };
+
+  const handleContinueShopping = () => {
+    toggleCart();
+    navigate('/products');
   };
 
   return (
@@ -73,7 +90,7 @@ const CartSidebar = () => {
                   title="Tu bolsa está vacía"
                   description="Parece que aún no has añadido nada. Explora nuestra colección para encontrar tus esenciales."
                   actionLabel="Continuar comprando"
-                  onAction={toggleCart}
+                  onAction={handleContinueShopping}
                   icon={
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1} stroke="currentColor" className="w-8 h-8">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />

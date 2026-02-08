@@ -26,7 +26,7 @@ const MainLayout: React.FC = () => {
       <NewsletterPopup />
       <BackToTopButton />
       <ScrollToTop />
-      <main className={`flex-grow ${isHome ? '' : 'container mx-auto px-4 py-8 pt-24'}`}>
+      <main className={`flex-grow ${isHome ? '' : 'container mx-auto px-4 py-8 pt-20 md:pt-24'}`}>
         {/* Outlet renderiza la ruta hija actual */}
         <Outlet />
       </main>
