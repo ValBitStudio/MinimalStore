@@ -90,10 +90,10 @@ const ProductsPage = () => {
         </div>
 
         {/* Barra de Herramientas: Filtros y Vistas */}
-        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 border-b border-gray-100 pb-6">
+        <div className="flex flex-col md:flex-row justify-between items-center gap-4 border-b border-gray-100 pb-6">
           
           {/* Filtros de Categoría (Scroll horizontal en móvil) */}
-          <div className="w-full lg:w-auto overflow-x-auto pb-2 lg:pb-0 scrollbar-hide">
+          <div className="w-full md:w-auto overflow-x-auto pb-2 md:pb-0 scrollbar-hide">
             <div className="flex gap-2">
               {categories.map((cat) => (
                 <button
@@ -112,13 +112,8 @@ const ProductsPage = () => {
           </div>
 
           {/* Controles: Texto (Móvil), Sort y View Toggle */}
-          <div className="w-full lg:w-auto flex flex-col sm:flex-row justify-between items-center gap-4">
-            {/* Texto visible solo en móvil para evitar huecos */}
-            <span className="text-sm text-gray-500 md:hidden self-start sm:self-center">
-              Mostrando {filteredProducts.length} de {PRODUCTS.length} productos
-            </span>
-
-            <div className="flex items-center gap-3 w-full sm:w-auto justify-end">
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-3">
               {/* Selector de Orden */}
               <select 
                 value={sortParam || ''}
