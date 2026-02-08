@@ -1,10 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { BLOG_POSTS } from '../data/blogPosts';
 import BlogCard from '../features/blog/components/BlogCard';
 
 const BlogPage = () => {
+  const [selectedCategory, setSelectedCategory] = useState('Todos');
+
+  // Extraer categorías únicas de los posts
+  const categories = ['Todos', ...Array.from(new Set(BLOG_POSTS.map((post) => post.category)))];
+
+  // Filtrar posts
+  const filteredPosts = selectedCategory === 'Todos'
+    ? BLOG_POSTS
+    : BLOG_POSTS.filter((post) => post.category === selectedCategory);
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <Helmet>
@@ -20,18 +30,38 @@ const BlogPage = () => {
         </p>
       </div>
 
+      {/* Filtros de Categoría */}
+      <div className="flex flex-wrap justify-center gap-3 mb-16">
+        {categories.map((category) => (
+          <button
+            key={category}
+            onClick={() => setSelectedCategory(category)}
+            className={`px-6 py-2 rounded-full text-sm font-medium transition-all ${
+              selectedCategory === category
+                ? 'bg-black text-white shadow-md transform scale-105'
+                : 'bg-gray-100 text-gray-600 hover:bg-gray-200 hover:text-gray-900'
+            }`}
+          >
+            {category}
+          </button>
+        ))}
+      </div>
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
-        {BLOG_POSTS.map((post, index) => (
+        <AnimatePresence mode='popLayout'>
+        {filteredPosts.map((post) => (
           <motion.div
+            layout
             key={post.id}
             initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: index * 0.1, duration: 0.5 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            transition={{ duration: 0.4 }}
           >
             <BlogCard post={post} />
           </motion.div>
         ))}
+        </AnimatePresence>
       </div>
     </div>
   );

@@ -7,7 +7,7 @@ import { BLOG_POSTS } from '../src/data/blogPosts';
 
 // Configuración
 // Usa una variable de entorno o un dominio por defecto para el sitemap
-const DOMAIN = process.env.SITE_URL || 'https://minimal-store-demo.vercel.app';
+const DOMAIN = process.env.SITE_URL || process.env.VITE_SITE_URL || 'https://minimal-store-demo.vercel.app';
 
 // Obtener rutas de directorios (__dirname no existe nativamente en módulos ES)
 const __dirname = path.dirname(fileURLToPath(import.meta.url));

@@ -32,9 +32,12 @@ const BlogCard: React.FC<BlogCardProps> = ({ post }) => {
         <p className="text-gray-600 text-sm line-clamp-2 leading-relaxed">
           {post.excerpt}
         </p>
-        <span className="inline-block text-sm font-bold underline decoration-1 underline-offset-4 mt-1 group-hover:text-gray-600 transition-colors">
-          Leer artículo
-        </span>
+        <div className="flex items-center gap-1 text-sm font-bold mt-1 group-hover:text-gray-600 transition-colors">
+          <span className="underline decoration-1 underline-offset-4">Leer artículo</span>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4 transition-transform group-hover:translate-x-1">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
+          </svg>
+        </div>
       </div>
     </Link>
   );
