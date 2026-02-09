@@ -46,6 +46,9 @@ const Navbar = () => {
           const focusableElements = mobileMenuRef.current.querySelectorAll(
             'a[href], button:not([disabled]), textarea, input, select'
           );
+
+          if (focusableElements.length === 0) return;
+
           const firstElement = focusableElements[0] as HTMLElement;
           const lastElement = focusableElements[focusableElements.length - 1] as HTMLElement;
 
@@ -136,7 +139,7 @@ const Navbar = () => {
           {/* Grupo: Menú Hamburguesa y Logotipo */}
           <div className="flex items-center gap-4">
             <button 
-              className={`md:hidden p-2 -ml-2 z-50 relative ${textColorClass}`}
+              className={`xl:hidden p-2 -ml-2 z-50 relative ${textColorClass}`}
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label={isMobileMenuOpen ? "Cerrar menú" : "Abrir menú"}
               aria-expanded={isMobileMenuOpen}
@@ -159,7 +162,7 @@ const Navbar = () => {
           </div>
 
           {/* Desktop Menu */}
-          <nav className="hidden md:flex gap-8 items-center absolute left-1/2 -translate-x-1/2">
+          <nav className="hidden xl:flex gap-8 items-center absolute left-1/2 -translate-x-1/2">
             <Link to="/" className={`text-sm font-medium ${hoverColorClass} transition-colors relative group`}>
               Inicio
               <span className="absolute left-0 -bottom-1 w-0 h-[1px] bg-current transition-all duration-300 group-hover:w-full" />
@@ -234,7 +237,7 @@ const Navbar = () => {
           </nav>
 
           {/* Icons */}
-          <div className="flex items-center gap-3 md:gap-5 z-50">
+          <div className="flex items-center gap-4 md:gap-6 z-50">
             {/* Search Icon */}
             <button 
               onClick={() => setIsSearchOpen(!isSearchOpen)} 
@@ -331,7 +334,7 @@ const Navbar = () => {
             animate={{ opacity: 1, height: '100vh' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="fixed inset-0 bg-white z-40 pt-24 px-4 md:hidden overflow-hidden flex flex-col"
+            className="fixed inset-0 bg-white z-40 pt-24 px-4 xl:hidden overflow-hidden flex flex-col"
           >
             <nav className="flex flex-col gap-8 text-center items-center justify-center h-full pb-32">
               <Link to="/" onClick={closeMenu} className="text-3xl font-serif font-medium hover:text-gray-500 transition-colors">Inicio</Link>

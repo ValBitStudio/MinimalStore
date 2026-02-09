@@ -90,7 +90,11 @@ const ProductDetailPage = () => {
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (imageContainerRef.current && !imageContainerRef.current.contains(event.target as Node)) {
+      if (
+        imageContainerRef.current && 
+        event.target instanceof Node && 
+        !imageContainerRef.current.contains(event.target)
+      ) {
         setIsZoomed(false);
       }
     };
